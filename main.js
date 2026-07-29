@@ -3,38 +3,13 @@ class Vector {
         this.x = x || 0;
         this.y = y || 0;
     }
-    add(v) {
-        this.x += v.x;
-        this.y += v.y;
-        return this;
-    }
-    sub(v) {
-        this.x -= v.x;
-        this.y -= v.y;
-        return this;
-    }
-    mult(n) {
-        this.x *= n;
-        this.y *= n;
-        return this;
-    }
-    mag() {
-        return Math.sqrt(this.x * this.x + this.y * this.y);
-    }
+    add(v) { this.x += v.x; this.y += v.y; return this; }
+    mult(n) { this.x *= n; this.y *= n; return this; }
+    mag() { return Math.sqrt(this.x * this.x + this.y * this.y); }
     normalize() {
         let m = this.mag();
-        if (m !== 0) {
-            this.mult(1 / m);
-        }
+        if (m !== 0) this.mult(1 / m);
         return this;
-    }
-    clone() {
-        return new Vector(this.x, this.y);
-    }
-    dist(v) {
-        let dx = this.x - v.x;
-        let dy = this.y - v.y;
-        return Math.sqrt(dx * dx + dy * dy);
     }
 }
 
@@ -49,12 +24,8 @@ class Perlin {
             this.p[i] = this.permutation[i % 256];
         }
     }
-    fade(t) {
-        return t * t * t * (t * (t * 6 - 15) + 10);
-    }
-    lerp(t, a, b) {
-        return a + t * (b - a);
-    }
+    fade(t) { return t * t * t * (t * (t * 6 - 15) + 10); }
+    lerp(t, a, b) { return a + t * (b - a); }
     grad(hash, x, y, z) {
         let h = hash & 15;
         let u = h < 8 ? x : y;
@@ -68,9 +39,7 @@ class Perlin {
         x -= Math.floor(x);
         y -= Math.floor(y);
         z -= Math.floor(z);
-        let u = this.fade(x);
-        let v = this.fade(y);
-        let w = this.fade(z);
+        let u = this.fade(x), v = this.fade(y), w = this.fade(z);
         let A = this.p[X] + Y, AA = this.p[A] + Z, AB = this.p[A + 1] + Z;
         let B = this.p[X + 1] + Y, BA = this.p[B] + Z, BB = this.p[B + 1] + Z;
         return this.lerp(w, this.lerp(v, this.lerp(u, this.grad(this.p[AA], x, y, z),
@@ -81,22 +50,6 @@ class Perlin {
                 this.grad(this.p[BA + 1], x - 1, y, z - 1)),
                 this.lerp(u, this.grad(this.p[AB + 1], x, y - 1, z - 1),
                     this.grad(this.p[BB + 1], x - 1, y - 1, z - 1))));
-    }
-}
-
-class Spring {
-    constructor(val, stiffness, damping) {
-        this.val = val;
-        this.target = val;
-        this.vel = 0;
-        this.stiffness = stiffness;
-        this.damping = damping;
-    }
-    update() {
-        let force = (this.target - this.val) * this.stiffness;
-        this.vel = (this.vel + force) * this.damping;
-        this.val += this.vel;
-        return this.val;
     }
 }
 
@@ -113,8 +66,8 @@ class FluidAmbient {
     resize() {
         this.width = this.canvas.width = window.innerWidth;
         this.height = this.canvas.height = window.innerHeight;
-        this.cols = Math.floor(this.width / 40);
-        this.rows = Math.floor(this.height / 40);
+        this.cols = Math.floor(this.width / 45);
+        this.rows = Math.floor(this.height / 45);
     }
     render() {
         this.ctx.clearRect(0, 0, this.width, this.height);
@@ -127,46 +80,36 @@ class FluidAmbient {
             for (let x = 0; x < this.cols; x++) {
                 let angle = this.perlin.noise(xOff, yOff, this.zOff) * Math.PI * 4;
                 let v = new Vector(Math.cos(angle), Math.sin(angle));
-                let px = x * 40;
-                let py = y * 40;
+                let px = x * 45;
+                let py = y * 45;
                 let intensity = (this.perlin.noise(xOff + 10, yOff + 10, this.zOff) + 1) / 2;
                 
                 this.ctx.beginPath();
                 this.ctx.moveTo(px, py);
-                this.ctx.lineTo(px + v.x * 30 * intensity, py + v.y * 30 * intensity);
-                this.ctx.strokeStyle = `rgba(123,43,54, ${intensity * 0.13})`;
+                this.ctx.lineTo(px + v.x * 35 * intensity, py + v.y * 35 * intensity);
+                
+                let isLunaZone = py > this.height * 0.6;
+                if(isLunaZone) {
+                    this.ctx.strokeStyle = `rgba(100,124,232, ${intensity * 0.15})`;
+                } else {
+                    this.ctx.strokeStyle = `rgba(123,43,54, ${intensity * 0.15})`;
+                }
+                
                 this.ctx.lineWidth = 2;
                 this.ctx.stroke();
-                xOff += 0.08;
+                xOff += 0.06;
             }
-            yOff += 0.08;
+            yOff += 0.06;
         }
-        this.zOff += 0.002;
+        this.zOff += 0.0015;
         requestAnimationFrame(() => this.render());
-    }
-}
-
-class MagneticElements {
-    constructor() {
-        this.elements = document.querySelectorAll('.magnetic-el');
-        this.elements.forEach(el => this.bindEvents(el));
-    }
-    bindEvents(el) {
-        let bounding = el.getBoundingClientRect();
-        window.addEventListener('resize', () => { bounding = el.getBoundingClientRect(); });
-        
-        
-        el.addEventListener('mouseleave', () => {
-            el.style.transform = `translate3d(0px, 0px, 0)`;
-            el.style.background = '';
-            el.style.borderColor = '';
-        });
     }
 }
 
 class TiltCards {
     constructor() {
-        this.cards = document.querySelectorAll('.interact-card');
+        // Manyetik 3D efekti SADECE en üstteki ana portfolio balonuna uyguluyoruz
+        this.cards = document.querySelectorAll('.profile-bubble.interact-card');
         this.cards.forEach(card => this.bindEvents(card));
     }
     bindEvents(card) {
@@ -176,9 +119,9 @@ class TiltCards {
             let y = e.clientY - rect.top;
             let cx = rect.width / 2;
             let cy = rect.height / 2;
-            let rx = (cy - y) / 25;
-            let ry = (x - cx) / 25;
-            card.style.transform = `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.02, 1.02, 1.02)`;
+            let rx = (cy - y) / 35;
+            let ry = (x - cx) / 35;
+            card.style.transform = `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.01, 1.01, 1.01)`;
         });
         card.addEventListener('mouseleave', () => {
             card.style.transform = `perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
@@ -188,52 +131,43 @@ class TiltCards {
 
 class TextScrambler {
     constructor() {
-        this.element = document.querySelector('.scramble-text');
-        this.chars = '!<>-_\\\\/[]{}—=+*^?#_ЖЗЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ';
-        this.original = this.element.getAttribute('data-value');
-        this.frame = 0;
-        this.queue = [];
-        
-        this.element.addEventListener('mouseenter', () => this.scramble());
-    }
-    scramble() {
-        this.queue = [];
-        for (let i = 0; i < this.original.length; i++) {
-            let start = Math.floor(Math.random() * 20);
-            let end = start + Math.floor(Math.random() * 20);
-            this.queue.push({
-                char: this.original[i],
-                start: start,
-                end: end,
-                curr: 0
-            });
-        }
-        cancelAnimationFrame(this.frameRequest);
-        this.frame = 0;
-        this.update();
-    }
-    update() {
-        let output = '';
-        let complete = 0;
-        for (let i = 0; i < this.queue.length; i++) {
-            let { char, start, end } = this.queue[i];
-            if (this.frame >= end) {
-                complete++;
-                output += char;
-            } else if (this.frame >= start) {
-                output += this.chars[Math.floor(Math.random() * this.chars.length)];
-            } else {
-                output += char;
-            }
-        }
-        this.element.innerText = output;
-        if (complete === this.queue.length) {
-            return;
-        }
-        this.frameRequest = requestAnimationFrame(() => {
-            this.frame++;
-            this.update();
+        this.elements = document.querySelectorAll('.scramble-text');
+        this.chars = '!<>-_\\/[]{}—=+*^?#_ЖЗЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ';
+        this.elements.forEach(el => {
+            el.addEventListener('mouseenter', () => this.scramble(el));
+            setTimeout(() => this.scramble(el), 500);
         });
+    }
+    scramble(element) {
+        const original = element.getAttribute('data-value');
+        let queue = [];
+        for (let i = 0; i < original.length; i++) {
+            let start = Math.floor(Math.random() * 15);
+            let end = start + Math.floor(Math.random() * 15);
+            queue.push({ char: original[i], start, end });
+        }
+        
+        let frame = 0;
+        const update = () => {
+            let output = '';
+            let complete = 0;
+            for (let i = 0; i < queue.length; i++) {
+                let { char, start, end } = queue[i];
+                if (frame >= end) {
+                    complete++;
+                    output += char;
+                } else if (frame >= start) {
+                    output += this.chars[Math.floor(Math.random() * this.chars.length)];
+                } else {
+                    output += char;
+                }
+            }
+            element.innerText = output;
+            if (complete === queue.length) return;
+            frame++;
+            requestAnimationFrame(update);
+        };
+        update();
     }
 }
 
@@ -259,11 +193,11 @@ class SpotifyWave {
     }
     initBars() {
         this.bars = [];
-        let numBars = Math.floor(this.width / 8);
+        let numBars = Math.floor(this.width / 9);
         for (let i = 0; i < numBars; i++) {
             this.bars.push({
-                x: i * 8 + 2,
-                w: 4,
+                x: i * 9 + 3,
+                w: 5,
                 h: 5,
                 tH: 5,
                 speed: Math.random() * 0.1 + 0.05
@@ -272,35 +206,50 @@ class SpotifyWave {
     }
     render() {
         this.ctx.clearRect(0, 0, this.width, this.height);
-        this.time += 0.03;
+        this.time += 0.04;
         
         for (let i = 0; i < this.bars.length; i++) {
             let b = this.bars[i];
             let noise = Math.sin(i * 0.2 + this.time) * Math.cos(i * 0.1 - this.time * 0.5);
-            b.tH = Math.abs(noise) * (this.height - 10) + 5;
+            b.tH = Math.abs(noise) * (this.height - 15) + 5;
             b.h += (b.tH - b.h) * b.speed;
             
             let y = (this.height - b.h) / 2;
             let grad = this.ctx.createLinearGradient(b.x, y, b.x, y + b.h);
-            grad.addColorStop(0, '#a63b49');
+            grad.addColorStop(0, '#b44a58');
             grad.addColorStop(1, '#47242b');
             
             this.ctx.fillStyle = grad;
             this.ctx.beginPath();
-            this.ctx.roundRect(b.x, y, b.w, b.h, 2);
+            this.ctx.roundRect(b.x, y, b.w, b.h, 2.5);
             this.ctx.fill();
         }
         requestAnimationFrame(() => this.render());
     }
 }
 
+class ScrollReveal {
+    constructor() {
+        this.elements = document.querySelectorAll('.fade-in');
+        this.observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+        
+        this.elements.forEach(el => this.observer.observe(el));
+    }
+}
+
 const app = {
     init() {
         this.ambient = new FluidAmbient();
-        this.magnetic = new MagneticElements();
-        this.tilts = new TiltCards();
+        this.tilts = new TiltCards(); 
         this.scrambler = new TextScrambler();
         this.wave = new SpotifyWave();
+        this.reveal = new ScrollReveal();
     }
 };
 
