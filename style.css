@@ -11,21 +11,17 @@
     --accent-hover: #b44a58;
     --accent-soft: #7b2b36;
 
-    --accent-bg: rgba(155, 55, 69, 0.12);
-    --accent-border: rgba(155, 55, 69, 0.30);
-
-    --glass-highlight: rgba(255,255,255,.045);
-    --glass-shadow: rgba(0,0,0,.72);
-
     --surface-1: rgba(24,18,20,.60);
     --surface-2: rgba(35,27,30,.55);
-    --surface-3: rgba(61,45,50,.18);
 
-    --shadow-soft:
-        0 28px 55px rgba(0,0,0,.72);
+    --shadow-soft: 0 28px 55px rgba(0,0,0,.72);
+    --shadow-inner: inset 0 0 0 1px rgba(255,255,255,.035);
 
-    --shadow-inner:
-        inset 0 0 0 1px rgba(255,255,255,.025);
+    /* Luna Theme */
+    --luna-bg: rgba(15, 18, 35, 0.65);
+    --luna-border: rgba(66, 84, 150, 0.35);
+    --luna-accent: #7b96ff;
+    --luna-text: #b8c5ff;
 }
 
 * {
@@ -42,11 +38,19 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding: 60px 20px;
+    padding: 80px 20px;
     overflow-x: hidden;
     scroll-behavior: smooth;
+    selection-background: var(--accent-color);
+    selection-color: #fff;
 }
 
+::selection {
+    background: var(--accent-color);
+    color: #fff;
+}
+
+/* Base Canvas */
 #ambient-canvas {
     position: fixed;
     top: 0;
@@ -54,59 +58,42 @@ body {
     width: 100vw;
     height: 100vh;
     z-index: -1;
-    opacity: 0.7;
+    opacity: 0.85;
     pointer-events: none;
-}
-
-#glow-pointer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 16px;
-    height: 16px;
-    background: var(--text-primary);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    mix-blend-mode: difference;
-    transform: translate(-50%, -50%);
-    transition: width 0.3s, height 0.3s, background 0.3s;
-}
-
-#glow-pointer.hovered {
-    width: 60px;
-    height: 60px;
-    background: var(--accent-color);
-    mix-blend-mode: screen;
-    filter: blur(10px);
-    opacity: 0.6;
 }
 
 .container {
     width: 100%;
-    max-width: 640px;
+    max-width: 720px;
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 36px;
     z-index: 1;
 }
 
 .grid-layout {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 32px;
+    gap: 36px;
 }
 
+/* Bubble Cards */
 .bubble {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    border-radius: 32px;
-    padding: 36px;
+    border-radius: 36px;
+    padding: 40px;
     backdrop-filter: blur(40px);
     -webkit-backdrop-filter: blur(40px);
     box-shadow: var(--shadow-soft), var(--shadow-inner);
     transform-style: preserve-3d;
-    will-change: transform;
+    will-change: transform, opacity;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.bubble:hover {
+    border-color: rgba(255,255,255,0.08);
+    box-shadow: 0 35px 65px rgba(0,0,0,.8), var(--shadow-inner);
 }
 
 .profile-bubble {
@@ -114,9 +101,23 @@ body {
     overflow: hidden;
 }
 
+/* Animations */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px) translateZ(0);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+}
+
+/* Ma' Section */
 .banner-wrapper {
     width: 100%;
-    height: 180px;
+    height: 200px;
     position: relative;
 }
 
@@ -129,25 +130,25 @@ body {
 .banner-fade {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, transparent 0%, var(--bg-base) 100%);
+    background: linear-gradient(to bottom, transparent 0%, var(--card-bg) 100%);
 }
 
 .profile-content {
-    padding: 0 40px 48px 40px;
+    padding: 0 48px 56px 48px;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    margin-top: -72px;
+    margin-top: -85px;
     position: relative;
-    transform: translateZ(30px);
+    transform: translateZ(40px);
 }
 
 .avatar-wrapper {
     position: relative;
-    width: 140px;
-    height: 140px;
-    margin-bottom: 24px;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 28px;
     display: inline-block;
 }
 
@@ -156,112 +157,131 @@ body {
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid var(--bg-base);
-    box-shadow: 0 16px 40px rgba(123,43,54,.22);
+    border: 5px solid rgba(35,27,30,.8);
+    box-shadow: 0 20px 45px rgba(123,43,54,.3);
+    transition: transform 0.4s ease;
+}
+
+.avatar-wrapper:hover .avatar-img {
+    transform: scale(1.05);
 }
 
 .crown-badge {
     position: absolute;
-    bottom: 4px;
-    right: 4px;
-    width: 40px;
-    height: 40px;
-    background: #111;
-    border: 2px solid var(--bg-base);
+    bottom: 5px;
+    right: 5px;
+    width: 44px;
+    height: 44px;
+    background: #0d0a0b;
+    border: 2px solid rgba(84, 66, 72, 0.4);
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    backdrop-filter: blur(10px);
 }
 
 .crown-badge img {
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
     object-fit: contain;
 }
 
 .display-name {
-    font-size: 32px;
+    font-size: 36px;
     font-weight: 800;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.04em;
     margin-bottom: 6px;
-    background: linear-gradient(135deg, #fff 0%, #a0a0a0 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .username {
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--accent-color);
-    margin-bottom: 20px;
-    letter-spacing: 0.02em;
+    margin-bottom: 24px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
 }
 
 .bio {
     font-size: 16px;
-    line-height: 1.7;
+    line-height: 1.8;
     color: var(--text-secondary);
-    max-width: 95%;
+    max-width: 90%;
+    font-weight: 400;
 }
 
+/* Core Stack & Philosophy */
 .section-heading {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 700;
-    margin-bottom: 28px;
+    margin-bottom: 32px;
     display: flex;
     align-items: center;
-    gap: 12px;
-    transform: translateZ(20px);
+    gap: 14px;
+    transform: translateZ(25px);
+    color: #fff;
 }
 
 .section-heading i {
-    font-size: 24px;
+    font-size: 26px;
     color: var(--accent-color);
+    filter: drop-shadow(0 0 10px rgba(155, 55, 69, 0.4));
 }
 
 .skills-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    transform: translateZ(10px);
+    gap: 14px;
+    transform: translateZ(15px);
 }
 
 .skill-pill {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 14px 22px;
+    gap: 10px;
+    padding: 14px 24px;
     background: var(--surface-2);
-    border: 1px solid rgba(84,66,72,.22);
+    border: 1px solid rgba(84,66,72,.3);
     border-radius: 100px;
     font-size: 14px;
     font-weight: 600;
-    color: var(--text-primary);
-    transition: background 0.4s ease, border-color 0.4s ease;
+    color: #fff;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: default;
+}
+
+.skill-pill:hover {
+    background: rgba(155, 55, 69, 0.15);
+    border-color: var(--accent-color);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(155, 55, 69, 0.2);
 }
 
 .skill-pill i {
-    font-size: 20px;
+    font-size: 22px;
     color: var(--accent-color);
 }
 
 .philosophy-text {
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.8;
     color: var(--text-secondary);
-    margin-bottom: 24px;
+    margin-bottom: 32px;
     transform: translateZ(15px);
 }
 
 .waveform-container {
     width: 100%;
-    height: 60px;
-    border-radius: 12px;
+    height: 70px;
+    border-radius: 16px;
     overflow: hidden;
-    background: rgba(15,11,12,.65);
-    transform: translateZ(10px);
+    background: var(--surface-1);
+    transform: translateZ(15px);
 }
 
 #spotify-wave-canvas {
@@ -270,109 +290,245 @@ body {
     display: block;
 }
 
-.project-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    transform: translateZ(15px);
+/* Luna Section :3 */
+.luna-section {
+    padding: 0;
+    background: var(--luna-bg);
+    border-color: var(--luna-border);
+    overflow: hidden;
 }
 
-.project-card {
-    background: var(--surface-1);
-    border:1px solid rgba(84,66,72,.20);
-    border-radius: 24px;
-    padding: 28px;
-    transition: background 0.4s ease;
-    transform: translateZ(20px);
+.luna-section:hover {
+    box-shadow: 0 35px 70px rgba(15, 20, 50, 0.9), inset 0 0 0 1px rgba(123, 150, 255, 0.1);
+    border-color: rgba(123, 150, 255, 0.4);
 }
 
-.project-card.mini {
-    padding: 20px;
+.luna-banner-wrapper {
+    width: 100%;
+    height: 240px;
+    position: relative;
 }
 
-.project-header {
+.luna-banner {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    image-rendering: pixelated;
+}
+
+.luna-banner-fade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 20%, var(--luna-bg) 100%);
+}
+
+.luna-logo-wrapper {
+    position: absolute;
+    bottom: -40px;
+    left: 48px;
+    width: 110px;
+    height: 110px;
+    border-radius: 28px;
+    border: 4px solid var(--luna-bg);
+    background: #000;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+    z-index: 2;
+    transition: transform 0.4s ease;
+}
+
+.luna-logo-wrapper:hover {
+    transform: scale(1.05);
+}
+
+.luna-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    image-rendering: pixelated;
+}
+
+.luna-content {
+    padding: 60px 48px 48px 48px;
+    transform: translateZ(30px);
+}
+
+.luna-header-row {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
+    align-items: flex-start;
+    margin-bottom: 24px;
 }
 
-.project-title {
+.luna-titles {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.luna-title-wrap {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 20px;
+    gap: 12px;
+}
+
+.luna-icon {
+    font-size: 32px;
+    color: var(--luna-accent);
+    filter: drop-shadow(0 0 8px rgba(123, 150, 255, 0.5));
+}
+
+.luna-title {
+    font-size: 34px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.03em;
+}
+
+.luna-slogan {
+    font-size: 13px;
     font-weight: 700;
+    color: var(--luna-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
 }
 
-.project-card.mini .project-title {
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-
-.project-title i {
-    color: var(--accent-color);
-    font-size: 26px;
-}
-
-.project-card.mini .project-title i {
-    font-size: 20px;
-}
-
-.exclusive-tag {
-    font-size: 11px;
+.luna-exclusive-tag {
+    font-size: 12px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding: 6px 12px;
-    background: rgba(123,43,54,.15);
-    color: var(--accent-color);
-    border:1px solid rgba(155,55,69,.28);
+    letter-spacing: 0.08em;
+    padding: 8px 16px;
+    background: rgba(123, 150, 255, 0.12);
+    color: var(--luna-accent);
+    border: 1px solid rgba(123, 150, 255, 0.25);
     border-radius: 100px;
-}
-
-.project-desc {
-    font-size: 15px;
-    line-height: 1.7;
-    color: var(--text-secondary);
-    margin-bottom: 20px;
-}
-
-.project-card.mini .project-desc {
-    font-size: 13px;
-    margin-bottom: 0;
-}
-
-.project-stats {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-}
-
-.stat {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: 13px;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.luna-desc {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--luna-text);
+    margin-bottom: 32px;
+    opacity: 0.9;
+}
+
+.luna-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.luna-tag {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: rgba(20, 25, 45, 0.8);
+    border: 1px solid rgba(123, 150, 255, 0.2);
+    border-radius: 12px;
+    font-size: 14px;
     font-weight: 600;
-    color: var(--text-primary);
-    background: rgba(61,45,50,.25);
-    padding: 6px 14px;
-    border-radius: 8px;
+    color: #fff;
+    transition: all 0.3s ease;
+    cursor: default;
 }
 
-.stat i {
-    color: var(--text-secondary);
+.luna-tag i {
+    color: var(--luna-accent);
+    font-size: 18px;
 }
 
+.luna-tag:hover {
+    background: rgba(123, 150, 255, 0.15);
+    border-color: var(--luna-accent);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+/* Luna Invite CTA */
+.luna-cta {
+    margin-top: 36px;
+    display: flex;
+}
+
+.luna-join-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    background: var(--luna-accent);
+    color: #0f1223;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 14px;
+    transition: all 0.3s ease;
+}
+
+.luna-join-btn i {
+    font-size: 20px;
+}
+
+.luna-join-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(123, 150, 255, 0.3);
+    background: #90a8ff;
+}
+
+/* Responsive UI/UX */
 @media (max-width: 768px) {
-    .grid-layout {
-        grid-template-columns: 1fr;
+    body {
+        padding: 40px 16px;
     }
-    .project-grid {
+    .grid-layout {
         grid-template-columns: 1fr;
     }
     .container {
         gap: 24px;
+    }
+    .bubble {
+        padding: 24px;
+        border-radius: 28px;
+    }
+    .banner-wrapper, .luna-banner-wrapper {
+        height: 140px;
+    }
+    .profile-content {
+        padding: 0 24px 32px 24px;
+        margin-top: -65px;
+    }
+    .avatar-wrapper {
+        width: 110px;
+        height: 110px;
+        margin-bottom: 20px;
+    }
+    .display-name {
+        font-size: 28px;
+    }
+    .luna-logo-wrapper {
+        width: 80px;
+        height: 80px;
+        left: 24px;
+        bottom: -30px;
+        border-radius: 20px;
+    }
+    .luna-content {
+        padding: 50px 24px 24px 24px;
+    }
+    .luna-header-row {
+        flex-direction: column;
+        gap: 16px;
+    }
+    .luna-title {
+        font-size: 28px;
+    }
+    .luna-join-btn {
+        width: 100%;
+        justify-content: center;
     }
 }
