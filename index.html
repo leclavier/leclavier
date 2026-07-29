@@ -3,27 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>- 𝑻𝒂𝒏𝒐𝒔 | تـــومــاس -</title>
+    <title>- 𝑻𝒂𝒏𝒐𝒔 | تـــانـــوس -</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
-    <div id="glow-pointer"></div>
     <canvas id="ambient-canvas"></canvas>
 
     <main class="container">
-        <section class="bubble profile-bubble interact-card">
+        <section class="bubble profile-bubble interact-card fade-in">
             <div class="banner-wrapper">
-                <img src="./Assets/Banner.gif" alt="Banner" class="banner-img">
+                <img src="./Assets/Banner.gif" alt="Banner" class="banner-img" onerror="this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='">
                 <div class="banner-fade"></div>
             </div>
             
             <div class="profile-content">
-                <div class="avatar-wrapper magnetic-el">
-                    <img src="./Assets/PFP.png" alt="☥𝑻𝒂𝒏𝒐𝒔" class="avatar-img">
+                <div class="avatar-wrapper">
+                    <img src="./Assets/PFP.png" alt="☥𝑻𝒂𝒏𝒐𝒔" class="avatar-img" onerror="this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='">
                     <div class="crown-badge">
-                        <img src="./Assets/Crown.png" alt="Crown">
+                        <img src="./Assets/Crown.png" alt="Crown" onerror="this.style.display='none'">
                     </div>
                 </div>
                 
@@ -37,37 +36,33 @@
         </section>
 
         <div class="grid-layout">
-            <section class="bubble interact-card">
+            <section class="bubble fade-in" style="transition-delay: 0.1s;">
                 <h3 class="section-heading"><i class="ph-fill ph-stack"></i> Core Stack</h3>
                 <div class="skills-container">
-                    <div class="skill-pill magnetic-el">
+                    <div class="skill-pill">
                         <i class="ph-fill ph-file-js"></i>
                         <span>JavaScript</span>
                     </div>
-                    <div class="skill-pill magnetic-el">
+                    <div class="skill-pill">
                         <i class="ph-fill ph-hexagon"></i>
                         <span>Node.js</span>
                     </div>
-                    <div class="skill-pill magnetic-el">
+                    <div class="skill-pill">
                         <i class="ph-fill ph-terminal-window"></i>
                         <span>Express</span>
                     </div>
-                    <div class="skill-pill magnetic-el">
+                    <div class="skill-pill">
                         <i class="ph-fill ph-wind"></i>
                         <span>Tailwind</span>
                     </div>
-                    <div class="skill-pill magnetic-el">
+                    <div class="skill-pill">
                         <i class="ph-fill ph-database"></i>
                         <span>MongoDB</span>
-                    </div>
-                    <div class="skill-pill magnetic-el">
-                        <i class="ph-fill ph-code"></i>
-                        <span>Python</span>
                     </div>
                 </div>
             </section>
 
-            <section class="bubble interact-card">
+            <section class="bubble fade-in" style="transition-delay: 0.2s;">
                 <h3 class="section-heading"><i class="ph-fill ph-cpu"></i> Philosophy</h3>
                 <p class="philosophy-text">
                     I believe in building systems that are as beautiful under the hood as they are on the surface. Security, optimization, and seamless UI/UX are not optional; they are the foundation of any digital architecture.
@@ -78,32 +73,44 @@
             </section>
         </div>
 
-        <section class="bubble interact-card">
-            <h3 class="section-heading"><i class="ph-fill ph-planet"></i> The Void Ecosystem</h3>
-            <div class="project-card">
-                <div class="project-header">
-                    <div class="project-title">
-                        <i class="ph-fill ph-infinity"></i>
-                        <h4>Void</h4>
-                    </div>
-                    <span class="exclusive-tag">Luna Exclusive</span>
+        <section class="bubble luna-section fade-in" style="transition-delay: 0.3s;">
+            <div class="luna-banner-wrapper">
+                <img src="Assets/Luna Banner.png" alt="Luna Banner" class="luna-banner">
+                <div class="luna-banner-fade"></div>
+                <div class="luna-logo-wrapper">
+                    <img src="/Assets/Luna Logo.png" alt="Luna Logo" class="luna-logo">
                 </div>
-                <p class="project-desc">
-                    A high-frequency global exchange, advanced economy, and real-time market simulation engine. Engineered strictly for the Athena mega-community where culture, science, and software practice merge.
+            </div>
+            
+            <div class="luna-content">
+                <div class="luna-header-row">
+                    <div class="luna-titles">
+                        <div class="luna-title-wrap">
+                            <i class="ph-fill ph-moon-stars luna-icon"></i>
+                            <h3 class="luna-title scramble-text" data-value="Luna">Luna</h3>
+                        </div>
+                        <h4 class="luna-slogan">Where Knowledge Meets The Night</h4>
+                    </div>
+                    <span class="luna-exclusive-tag">
+                        <i class="ph-fill ph-planet"></i> Mega-Community
+                    </span>
+                </div>
+                
+                <p class="luna-desc">
+                    Step into Luna—a sanctuary for meaningful discourse, shared knowledge, and deep connections. Whether you're here to learn, collaborate, or simply unwind, you'll find a dedicated space to grow alongside like-minded individuals.
                 </p>
-                <div class="project-stats">
-                    <div class="stat">
-                        <i class="ph-fill ph-pulse"></i>
-                        <span>Real-time</span>
-                    </div>
-                    <div class="stat">
-                        <i class="ph-fill ph-shield-check"></i>
-                        <span>Secure Architecture</span>
-                    </div>
-                    <div class="stat">
-                        <i class="ph-fill ph-users"></i>
-                        <span>Mega-Community</span>
-                    </div>
+                
+                <div class="luna-tags">
+                    <div class="luna-tag"><i class="ph-fill ph-bowling-ball"></i> Activities</div>
+                    <div class="luna-tag"><i class="ph-fill ph-heart"></i> Community</div>
+                    <div class="luna-tag"><i class="ph-fill ph-trophy"></i> Events</div>
+                    <div class="luna-tag"><i class="ph-fill ph-music-notes"></i> Music</div>
+                    <div class="luna-tag"><i class="ph-fill ph-coffee"></i> Chill</div>
+                </div>
+                <div class="luna-cta">
+                    <a href="https://discord.gg/XRw3apdjnx" target="_blank" class="luna-join-btn">
+                        <i class="ph-fill ph-discord-logo"></i> Join the Community
+                    </a>
                 </div>
             </div>
         </section>
