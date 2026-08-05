@@ -28,7 +28,7 @@
 ### 🛠️ Tech Stack & Tools
 
 <div align="center">
-  <img src="https://skillicons.dev/icons?i=html,css,js,react,nodejs,discordjs,git,github,windows" alt="Tech Stack" />
+  <img src="https://skillicons.dev/icons?i=html,css,js,nodejs,discordjs,git,github,mongodb" alt="Tech Stack" />
 </div>
 
 ---
