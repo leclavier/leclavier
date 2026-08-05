@@ -37,11 +37,11 @@
 
 <div align="center">
   <img src="https://github-readme-stats.vercel.app/api?username=reacteng&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0f1223&title_color=7b96ff&icon_color=7b96ff&text_color=ffffff" alt="GitHub Stats" width="48%" />
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=reacteng&theme=tokyonight&hide_border=true&background=0f1223&ring=7b96ff&fire=7b96ff&currStreakNum=ffffff" alt="GitHub Streak" width="48%" />
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=leclavier&theme=tokyonight&hide_border=true&background=0f1223&ring=7b96ff&fire=7b96ff&currStreakNum=ffffff" alt="GitHub Streak" width="48%" />
 </div>
 
 <br>
 
 <div align="center">
-  <img src="https://komarev.com/ghpvc/?username=reacteng&color=7b96ff&style=flat-square&label=Profile+Views" alt="Profile Views" />
+  <img src="https://komarev.com/ghpvc/?username=leclavier&color=7b96ff&style=flat-square&label=Profile+Views" alt="Profile Views" />
 </div>
