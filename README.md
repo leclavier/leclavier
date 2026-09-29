@@ -37,39 +37,16 @@
 
 <div align="center">
 
-<img height="165" src="https://github-readme-stats.vercel.app/api?username=leclavier&show_icons=true&hide_border=true&border_radius=20&bg_color=E7F5FF&title_color=339AF0&icon_color=74C0FC&text_color=4A6FA5&ring_color=74C0FC" />
-<img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=leclavier&layout=compact&hide_border=true&border_radius=20&bg_color=E7F5FF&title_color=339AF0&text_color=4A6FA5" />
-
-<br/>
-
 <img src="https://streak-stats.demolab.com?user=leclavier&hide_border=true&border_radius=20&background=E7F5FF&ring=74C0FC&fire=339AF0&currStreakNum=4A6FA5&sideNums=4A6FA5&currStreakLabel=339AF0&sideLabels=4A6FA5&dates=8FA9C9" />
 
 </div>
 
 <br/>
 
-## 🌊 activity
+## 🐍 contributions
 
 <div align="center">
 
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=leclavier&bg_color=E7F5FF&color=339AF0&line=74C0FC&point=1C7ED6&area=true&area_color=A5D8FF&hide_border=true&radius=20" width="95%" />
-
-</div>
-
-<br/>
-
-## 🏆 trophies
-
-<div align="center">
-
-<img src="https://github-profile-trophy.vercel.app/?username=leclavier&theme=onedark&no-frame=true&no-bg=true&margin-w=8&column=7" />
-
-</div>
-
-<br/>
-
-<div align="center">
-
-<img src="https://capsule-render.vercel.app/api?type=rounded&color=A5D8FF&height=90&section=footer" width="100%" />
+<img src="https://raw.githubusercontent.com/leclavier/leclavier/output/snake.svg" width="95%" alt="snake" />
 
 </div>
