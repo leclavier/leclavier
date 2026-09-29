@@ -42,11 +42,3 @@
 </div>
 
 <br/>
-
-## 🐍 contributions
-
-<div align="center">
-
-<img src="https://raw.githubusercontent.com/leclavier/leclavier/output/snake.svg" width="95%" alt="snake" />
-
-</div>
